@@ -1,0 +1,131 @@
+/* Elegant Flows Page Styles */
+
+.flows-sidebar {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.08);
+  padding: 32px 28px 32px 28px;
+  margin: 12px 0;
+  min-height: 200px;
+  min-width: 240px;
+  max-width: 320px;
+  transition: box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flows-sidebar .MuiTypography-h6 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+}
+
+.flows-sidebar .MuiList-root {
+  width: 100%;
+}
+
+.flows-sidebar .MuiListItem-root {
+  border-radius: 10px;
+  margin-bottom: 16px;
+  padding: 12px 20px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: #222;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s, color 0.2s;
+  letter-spacing: 0.2px;
+}
+
+.flows-sidebar .MuiListItem-root:last-child {
+  margin-bottom: 0;
+}
+
+.flows-sidebar .MuiListItem-root:hover,
+.flows-sidebar .MuiListItem-root.Mui-selected {
+  background: linear-gradient(90deg, #1976d2 0%, #64b5f6 100%);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.12);
+  transform: translateX(4px) scale(1.03);
+}
+
+.flows-sidebar .MuiListItemText-root span {
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.flows-main-paper {
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.10);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e3eafc 100%);
+  transition: box-shadow 0.3s;
+  overflow: hidden;
+}
+
+.flows-header {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #1976d2;
+  margin-bottom: 8px;
+  animation: fadeInDown 0.7s cubic-bezier(.77,0,.18,1) both;
+}
+
+.flows-description {
+  color: #607d8b;
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+  animation: fadeIn 1.2s cubic-bezier(.77,0,.18,1) both;
+}
+
+.flows-diagram-area {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(25, 118, 210, 0.07);
+  padding: 18px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s, background 0.3s;
+  animation: fadeInUp 1s cubic-bezier(.77,0,.18,1) both;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .flows-diagram-area { min-height: 220px; padding: 8px; }
+  .flows-sidebar { min-height: 200px; padding: 12px 4px; }
+}
+
+.react-flow__node {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+}
+
+.react-flow__edge-path {
+  stroke: #1976d2;
+  stroke-width: 2;
+} 
+
+.react-flow__minimap {
+  background: #f5f7fa;
+} 
