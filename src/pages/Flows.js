@@ -12,42 +12,48 @@ import {
   Select,
   InputLabel,
 } from '@mui/material';
-import PlantUML from '../components/PlantUML';
+import PlantUMLRemote from '../components/PlantUMLRemote';
 
 function Flows() {
   const [flows, setFlows] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState('US');
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedFlow, setSelectedFlow] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setLoading(true);
     fetch('http://localhost:4000/api/flows')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch flows');
+        return res.json();
+      })
       .then(data => {
         setFlows(data);
+        const countryList = Array.from(new Set(data.map(f => f.country)));
+        setCountries(countryList);
+        setSelectedCountry(countryList[0] || '');
         setLoading(false);
       })
-      .catch(() => {
-        setError('Failed to load flows');
+      .catch(e => {
+        setError(e.message);
         setLoading(false);
       });
   }, []);
 
-  // Compute countries and countryFlows after hooks
-  const countries = Array.from(new Set(flows.map(f => f.country)));
   const countryFlows = flows.filter(f => f.country === selectedCountry);
 
   useEffect(() => {
-    setSelectedFlow(countryFlows[0]);
+    setSelectedFlow(countryFlows[0] || null);
   }, [selectedCountry, flows]);
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography color='error'>{error}</Typography>;
+  if (loading) return <Typography>Loading flows...</Typography>;
+  if (error) return <Typography color="error">{error}</Typography>;
+  if (!selectedFlow) return <Typography>No flows available for this country.</Typography>;
 
   return (
-    <Box sx={{ px: 4, py: 4, background: 'linear-gradient(90deg, #f5f7fa 0%, #e3eafc 100%)', minHeight: '100vh' }}>
+    <Box>
       <Typography variant="h4" component="h1" gutterBottom>
         Customer Journey Flows
       </Typography>
@@ -77,7 +83,7 @@ function Flows() {
                 <ListItem
                   button
                   key={flow.id}
-                  selected={selectedFlow?.id === flow.id}
+                  selected={selectedFlow && selectedFlow.id === flow.id}
                   onClick={() => setSelectedFlow(flow)}
                 >
                   <ListItemText primary={flow.name} />
@@ -89,10 +95,10 @@ function Flows() {
         {/* Main diagram area */}
         <Grid item xs={10} sx={{ pl: 0 }}>
           <Paper className="flows-main-paper" style={{ padding: 32, height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '100vw' }}>
-            <div className="flows-header" style={{ fontSize: 32 }}>{selectedFlow?.name}</div>
-            <div className="flows-description">{selectedFlow?.description}</div>
+            <div className="flows-header" style={{ fontSize: 32 }}>{selectedFlow.name}</div>
+            <div className="flows-description">{selectedFlow.description}</div>
             <div className="flows-diagram-area">
-              <PlantUML diagram={selectedFlow?.diagram} />
+              <PlantUMLRemote diagram={selectedFlow.diagram} />
             </div>
           </Paper>
         </Grid>
